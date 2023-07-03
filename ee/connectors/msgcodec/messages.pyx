@@ -268,7 +268,7 @@ cdef class MouseMove(PyMessage):
         self.y = y
 
 
-cdef class NetworkRequest(PyMessage):
+cdef class NetworkRequestDeprecated(PyMessage):
     cdef public int __id__
     cdef public str type
     cdef public str method
@@ -1044,6 +1044,31 @@ cdef class PartitionedMessage(PyMessage):
         self.part_total = part_total
 
 
+cdef class NetworkRequest(PyMessage):
+    cdef public int __id__
+    cdef public str type
+    cdef public str method
+    cdef public str url
+    cdef public str request
+    cdef public str response
+    cdef public unsigned long status
+    cdef public unsigned long timestamp
+    cdef public unsigned long duration
+    cdef public unsigned long transferred_body_size
+
+    def __init__(self, str type, str method, str url, str request, str response, unsigned long status, unsigned long timestamp, unsigned long duration, unsigned long transferred_body_size):
+        self.__id__ = 83
+        self.type = type
+        self.method = method
+        self.url = url
+        self.request = request
+        self.response = response
+        self.status = status
+        self.timestamp = timestamp
+        self.duration = duration
+        self.transferred_body_size = transferred_body_size
+
+
 cdef class InputChange(PyMessage):
     cdef public int __id__
     cdef public unsigned long id
@@ -1119,6 +1144,24 @@ cdef class ResourceTiming(PyMessage):
         self.initiator = initiator
         self.transferred_size = transferred_size
         self.cached = cached
+
+
+cdef class TabChange(PyMessage):
+    cdef public int __id__
+    cdef public str tab_id
+
+    def __init__(self, str tab_id):
+        self.__id__ = 117
+        self.tab_id = tab_id
+
+
+cdef class TabData(PyMessage):
+    cdef public int __id__
+    cdef public str tab_id
+
+    def __init__(self, str tab_id):
+        self.__id__ = 118
+        self.tab_id = tab_id
 
 
 cdef class IssueEvent(PyMessage):

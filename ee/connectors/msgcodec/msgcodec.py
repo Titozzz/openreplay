@@ -43,8 +43,7 @@ class MessageCodec(Codec):
         try:
             decoded = int.from_bytes(b, "little", signed=False)
         except Exception as e:
-            print(f"Error while decoding message key (SessionID) from {b}\n{e}")
-            raise e
+            raise UnicodeDecodeError(f"Error while decoding message key (SessionID) from {b}\n{e}")
         return decoded
 
     def decode_detailed(self, b: bytes) -> List[Message]:
@@ -234,7 +233,7 @@ class MessageCodec(Codec):
             )
 
         if message_id == 21:
-            return NetworkRequest(
+            return NetworkRequestDeprecated(
                 type=self.read_string(reader),
                 method=self.read_string(reader),
                 url=self.read_string(reader),
@@ -646,6 +645,19 @@ class MessageCodec(Codec):
             return PartitionedMessage(
                 part_no=self.read_uint(reader),
                 part_total=self.read_uint(reader)
+            )
+
+        if message_id == 83:
+            return NetworkRequest(
+                type=self.read_string(reader),
+                method=self.read_string(reader),
+                url=self.read_string(reader),
+                request=self.read_string(reader),
+                response=self.read_string(reader),
+                status=self.read_uint(reader),
+                timestamp=self.read_uint(reader),
+                duration=self.read_uint(reader),
+                transferred_body_size=self.read_uint(reader)
             )
 
         if message_id == 112:

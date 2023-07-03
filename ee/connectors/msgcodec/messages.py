@@ -71,7 +71,7 @@ class CreateDocument(Message):
     __id__ = 7
 
     def __init__(self, ):
-        pass
+        
 
 
 class CreateElementNode(Message):
@@ -185,7 +185,7 @@ class MouseMove(Message):
         self.y = y
 
 
-class NetworkRequest(Message):
+class NetworkRequestDeprecated(Message):
     __id__ = 21
 
     def __init__(self, type, method, url, request, response, status, timestamp, duration):
@@ -708,6 +708,21 @@ class PartitionedMessage(Message):
         self.part_total = part_total
 
 
+class NetworkRequest(Message):
+    __id__ = 83
+
+    def __init__(self, type, method, url, request, response, status, timestamp, duration, transferred_body_size):
+        self.type = type
+        self.method = method
+        self.url = url
+        self.request = request
+        self.response = response
+        self.status = status
+        self.timestamp = timestamp
+        self.duration = duration
+        self.transferred_body_size = transferred_body_size
+
+
 class InputChange(Message):
     __id__ = 112
 
@@ -757,6 +772,20 @@ class ResourceTiming(Message):
         self.initiator = initiator
         self.transferred_size = transferred_size
         self.cached = cached
+
+
+class TabChange(Message):
+    __id__ = 117
+
+    def __init__(self, tab_id):
+        self.tab_id = tab_id
+
+
+class TabData(Message):
+    __id__ = 118
+
+    def __init__(self, tab_id):
+        self.tab_id = tab_id
 
 
 class IssueEvent(Message):
