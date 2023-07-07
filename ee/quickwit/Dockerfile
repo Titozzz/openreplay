@@ -1,19 +1,21 @@
 FROM quickwit/quickwit
 
+# RUN apk -y update \
+# RUN apk add clang pkgconfig openssl-dev cmake \
+#        && rm -rf /var/lib/apt/lists/* \
+#        && curl -L https://install.quickwit.io | sh \
+#	&& mv quickwit-* quickwit \
+RUN apt-get -y update \
+    && apt-get -y install python3 python3-pip \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /quickwit
 COPY *.yaml /quickwit/
 COPY entrypoint.sh /quickwit/
 COPY consumer.py /quickwit/
 COPY requirements.txt /quickwit/
-COPY msgcodec /quickwit/msgcodec
-WORKDIR /quickwit
 
-RUN apt-get update
-RUN apt-get install python3 python3-pip -y
-RUN apt-get clean
 RUN pip install -r requirements.txt
-
-COPY env.default .env
-RUN source .env
 
 ENV filter="true" \
 	encrypted="false"
