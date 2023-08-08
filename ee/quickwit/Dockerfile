@@ -4,7 +4,7 @@ COPY *.yaml /quickwit/
 COPY entrypoint.sh /quickwit/
 COPY consumer.py /quickwit/
 COPY requirements.txt /quickwit/
-COPY msgcodec /quickwit/msgcodec
+#COPY msgcodec /quickwit/msgcodec
 WORKDIR /quickwit
 
 RUN apt-get update
@@ -14,9 +14,6 @@ RUN pip install -r requirements.txt
 
 COPY env.default .env
 RUN source .env
-
-ENV filter="true" \
-	encrypted="false"
 
 EXPOSE 7280
 
