@@ -25,7 +25,7 @@ def kafka_reader_task(pipe: Connection):
     kafka_params = {
         "security.protocol": "SSL",
         "bootstrap.servers": kafka_sources,
-        "group.id": config("group_id"),
+        "group.id": config("group_id", default='saas-quickwit'),
         "auto.offset.reset": "earliest",
         # value_deserializer=lambda m: json.loads(m.decode('utf-8')),
         "enable.auto.commit": False
