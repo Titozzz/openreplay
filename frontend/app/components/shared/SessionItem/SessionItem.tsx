@@ -36,7 +36,7 @@ interface Props {
     userDisplayName: string;
     userCountry: string;
     userCity: string;
-    usetState: string;
+    userState: string;
     startedAt: number;
     duration: Duration;
     eventsCount: number;
@@ -222,16 +222,23 @@ function SessionItem(props: RouteComponentProps & Props) {
             </div>
             <div style={{ width: '30%' }} className="px-2 flex flex-col justify-between">
               <div style={{ height: '21px' }}>
-                <CountryFlag userCity={userCity} userState={userState} country={userCountry} showLabel={true} />
+                <CountryFlag
+                  userCity={userCity}
+                  userState={userState}
+                  country={userCountry}
+                  showLabel={true}
+                />
               </div>
               <div className="color-gray-medium flex items-center py-1">
-                <span className="capitalize" style={{ maxWidth: '70px' }}>
-                  <TextEllipsis
-                    text={capitalize(userBrowser)}
-                    popupProps={{ inverted: true, size: 'tiny' }}
-                  />
-                </span>
-                <Icon name="circle-fill" size={3} className="mx-4" />
+                {userBrowser ? (
+                  <span className="capitalize" style={{ maxWidth: '70px' }}>
+                    <TextEllipsis
+                      text={capitalize(userBrowser)}
+                      popupProps={{ inverted: true, size: 'tiny' }}
+                    />
+                  </span>
+                ) : null}
+                {userOs && userBrowser ? <Icon name="circle-fill" size={3} className="mx-4" /> : null}
                 <span className="capitalize" style={{ maxWidth: '70px' }}>
                   <TextEllipsis
                     text={capitalize(userOs)}
