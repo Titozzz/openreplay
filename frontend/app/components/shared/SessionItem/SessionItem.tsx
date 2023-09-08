@@ -150,7 +150,6 @@ function SessionItem(props: RouteComponentProps & Props) {
     ];
   }, []);
 
-  console.log(/ios/i.test(userOs) ? 'iOS' : capitalize(userOs))
   return (
     <Tooltip
       delay={0}
