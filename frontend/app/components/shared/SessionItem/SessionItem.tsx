@@ -150,6 +150,7 @@ function SessionItem(props: RouteComponentProps & Props) {
     ];
   }, []);
 
+  console.log(/ios/i.test(userOs) ? 'iOS' : capitalize(userOs))
   return (
     <Tooltip
       delay={0}
@@ -238,10 +239,12 @@ function SessionItem(props: RouteComponentProps & Props) {
                     />
                   </span>
                 ) : null}
-                {userOs && userBrowser ? <Icon name="circle-fill" size={3} className="mx-4" /> : null}
-                <span className="capitalize" style={{ maxWidth: '70px' }}>
+                {userOs && userBrowser ? (
+                  <Icon name="circle-fill" size={3} className="mx-4" />
+                ) : null}
+                <span className={/ios/i.test(userOs) ? '' : 'capitalize'} style={{ maxWidth: '70px' }}>
                   <TextEllipsis
-                    text={capitalize(userOs)}
+                    text={/ios/i.test(userOs) ? 'iOS' : capitalize(userOs)}
                     popupProps={{ inverted: true, size: 'tiny' }}
                   />
                 </span>
