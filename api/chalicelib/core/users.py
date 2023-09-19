@@ -626,6 +626,16 @@ def authenticate(email, password, for_change_password=False):
     return None
 
 
+def logout(user_id: int):
+    with pg_client.PostgresClient() as cur:
+        query = cur.mogrify(
+            """UPDATE public.users
+               SET jwt_iat = NULL
+               WHERE user_id = %(user_id)s;""",
+            {"user_id": user_id})
+        cur.execute(query)
+
+
 def get_user_role(tenant_id, user_id):
     with pg_client.PostgresClient() as cur:
         cur.execute(
