@@ -45,7 +45,8 @@ class JWTAuth(HTTPBearer):
             request.state.authorizer_identity = "jwt"
             request.state.currentContext = schemas.CurrentContext(tenant_id=jwt_payload.get("tenantId", -1),
                                                                   user_id=jwt_payload.get("userId", -1),
-                                                                  email=user["email"])
+                                                                  email=user["email"],
+                                                                  role=user["role"])
             return request.state.currentContext
 
         else:

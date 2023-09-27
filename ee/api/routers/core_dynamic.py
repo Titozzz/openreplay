@@ -17,7 +17,7 @@ from chalicelib.utils import SAML2_helper, smtp
 from chalicelib.utils import captcha
 from chalicelib.utils import helper
 from chalicelib.utils.TimeUTC import TimeUTC
-from or_dependencies import OR_context, OR_scope
+from or_dependencies import OR_context, OR_scope, OR_role
 from routers import saml
 from routers.base import get_routers
 from schemas_ee import Permissions, ServicePermissions
@@ -132,7 +132,7 @@ def edit_slack_integration(integrationId: int, data: schemas.EditCollaborationSc
                                    changes={"name": data.name, "endpoint": data.url})}
 
 
-@app.post('/client/members', tags=["client"])
+@app.post('/client/members', tags=["client"], dependencies=[OR_role("owner", "admin")])
 def add_member(background_tasks: BackgroundTasks, data: schemas_ee.CreateMemberSchema = Body(...),
                context: schemas.CurrentContext = Depends(OR_context)):
     return users.create_member(tenant_id=context.tenant_id, user_id=context.user_id, data=data.dict(),
@@ -171,7 +171,7 @@ def change_password_by_invitation(data: schemas.EditPasswordByInvitationSchema =
     return users.set_password_invitation(new_password=data.password, user_id=user["userId"], tenant_id=user["tenantId"])
 
 
-@app.put('/client/members/{memberId}', tags=["client"])
+@app.put('/client/members/{memberId}', tags=["client"], dependencies=[OR_role("owner", "admin")])
 def edit_member(memberId: int, data: schemas_ee.EditMemberSchema,
                 context: schemas.CurrentContext = Depends(OR_context)):
     return users.edit_member(tenant_id=context.tenant_id, editor_id=context.user_id, changes=data,
