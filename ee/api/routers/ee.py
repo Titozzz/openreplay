@@ -5,7 +5,7 @@ from chalicelib.utils import assist_helper
 
 unlock.check()
 
-from or_dependencies import OR_context
+from or_dependencies import OR_context, OR_role
 from routers.base import get_routers
 import schemas_ee
 from fastapi import Depends, Body
@@ -20,8 +20,8 @@ def get_roles(context: schemas_ee.CurrentContext = Depends(OR_context)):
     }
 
 
-@app.post('/client/roles', tags=["client", "roles"])
-@app.put('/client/roles', tags=["client", "roles"])
+@app.post('/client/roles', tags=["client", "roles"], dependencies=[OR_role("owner", "admin")])
+@app.put('/client/roles', tags=["client", "roles"], dependencies=[OR_role("owner", "admin")])
 def add_role(data: schemas_ee.RolePayloadSchema = Body(...),
              context: schemas_ee.CurrentContext = Depends(OR_context)):
     data = roles.create(tenant_id=context.tenant_id, user_id=context.user_id, data=data)
@@ -33,8 +33,8 @@ def add_role(data: schemas_ee.RolePayloadSchema = Body(...),
     }
 
 
-@app.post('/client/roles/{roleId}', tags=["client", "roles"])
-@app.put('/client/roles/{roleId}', tags=["client", "roles"])
+@app.post('/client/roles/{roleId}', tags=["client", "roles"], dependencies=[OR_role("owner", "admin")])
+@app.put('/client/roles/{roleId}', tags=["client", "roles"], dependencies=[OR_role("owner", "admin")])
 def edit_role(roleId: int, data: schemas_ee.RolePayloadSchema = Body(...),
               context: schemas_ee.CurrentContext = Depends(OR_context)):
     data = roles.update(tenant_id=context.tenant_id, user_id=context.user_id, role_id=roleId, data=data)
@@ -46,7 +46,7 @@ def edit_role(roleId: int, data: schemas_ee.RolePayloadSchema = Body(...),
     }
 
 
-@app.delete('/client/roles/{roleId}', tags=["client", "roles"])
+@app.delete('/client/roles/{roleId}', tags=["client", "roles"], dependencies=[OR_role("owner", "admin")])
 def delete_role(roleId: int, _=Body(None), context: schemas_ee.CurrentContext = Depends(OR_context)):
     data = roles.delete(tenant_id=context.tenant_id, user_id=context.user_id, role_id=roleId)
     if "errors" in data:
@@ -62,7 +62,7 @@ def get_assist_credentials():
     return {"data": assist_helper.get_full_config()}
 
 
-@app.post('/trails', tags=["traces", "trails"])
+@app.post('/trails', tags=["traces", "trails"], dependencies=[OR_role("owner", "admin")])
 def get_trails(data: schemas_ee.TrailSearchPayloadSchema = Body(...),
                context: schemas_ee.CurrentContext = Depends(OR_context)):
     return {
@@ -70,7 +70,7 @@ def get_trails(data: schemas_ee.TrailSearchPayloadSchema = Body(...),
     }
 
 
-@app.post('/trails/actions', tags=["traces", "trails"])
+@app.post('/trails/actions', tags=["traces", "trails"], dependencies=[OR_role("owner", "admin")])
 def get_available_trail_actions(context: schemas_ee.CurrentContext = Depends(OR_context)):
     return {'data': traces.get_available_actions(tenant_id=context.tenant_id)}
 
