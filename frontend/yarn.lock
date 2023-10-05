@@ -5124,6 +5124,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/qs@npm:^6":
+  version: 6.9.8
+  resolution: "@types/qs@npm:6.9.8"
+  checksum: 336358c279818ecedc0b4f9b29fd5052ff6e05dba3f10bad4534a4624819408d0b4710a4cdf8b58dff948dbdb1ca95a00e237189505ef1abfce0e6341eb18022
+  languageName: node
+  linkType: hard
+
 "@types/raf@npm:^3.4.0":
   version: 3.4.0
   resolution: "@types/raf@npm:3.4.0"
@@ -17587,6 +17594,7 @@ __metadata:
     "@svg-maps/world": ^1.0.1
     "@svgr/webpack": ^6.2.1
     "@types/luxon": ^3.0.0
+    "@types/qs": ^6
     "@types/react": ^18.0.9
     "@types/react-dom": ^18.0.4
     "@types/react-redux": ^7.1.24
@@ -17645,6 +17653,7 @@ __metadata:
     postcss-nesting: ^10.1.6
     postcss-simple-vars: ^6.0.3
     prettier: ^2.6.2
+    qs: ^6.11.2
     rc-time-picker: ^3.7.3
     react: ^18.2.0
     react-circular-progressbar: ^2.1.0
@@ -19347,6 +19356,15 @@ __metadata:
   dependencies:
     side-channel: ^1.0.4
   checksum: 4e4875e4d7c7c31c233d07a448e7e4650f456178b9dd3766b7cfa13158fdb24ecb8c4f059fa91e820dc6ab9f2d243721d071c9c0378892dcdad86e9e9a27c68f
+  languageName: node
+  linkType: hard
+
+"qs@npm:^6.11.2":
+  version: 6.11.2
+  resolution: "qs@npm:6.11.2"
+  dependencies:
+    side-channel: ^1.0.4
+  checksum: 4f95d4ff18ed480befcafa3390022817ffd3087fc65f146cceb40fc5edb9fa96cb31f648cae2fa96ca23818f0798bd63ad4ca369a0e22702fcd41379b3ab6571
   languageName: node
   linkType: hard
 

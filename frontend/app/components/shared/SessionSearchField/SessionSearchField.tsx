@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Input } from 'UI';
 import FilterModal from 'Shared/Filters/FilterModal';
 import { debounce } from 'App/utils';
 import { assist as assistRoute, isRoute } from 'App/routes';
 import { addFilterByKeyAndValue, fetchFilterSearch } from 'Duck/search';
+import qs from 'qs';
 import {
   addFilterByKeyAndValue as liveAddFilterByKeyAndValue,
   fetchFilterSearch as liveFetchFilterSearch,
 } from 'Duck/liveSearch';
+import { useLocation } from 'react-router';
 const ASSIST_ROUTE = assistRoute();
 
 interface Props {
@@ -18,6 +20,8 @@ interface Props {
   liveFetchFilterSearch: any;
 }
 function SessionSearchField(props: Props) {
+  const {search} = useLocation();
+
   const isLive =
     isRoute(ASSIST_ROUTE, window.location.pathname) ||
     window.location.pathname.includes('multiview');
@@ -25,6 +29,17 @@ function SessionSearchField(props: Props) {
     debounce(isLive ? props.liveFetchFilterSearch : props.fetchFilterSearch, 1000),
     []
   );
+
+  useEffect(() => {
+    const parsed = qs.parse(search.substring(1));
+    if (parsed.id && isLive) {
+      props.liveAddFilterByKeyAndValue('userId', parsed.id as string);
+    } else {
+      props.addFilterByKeyAndValue('userId', parsed.id as string);
+    }
+  }, []);
+
+
   const [showModal, setShowModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
